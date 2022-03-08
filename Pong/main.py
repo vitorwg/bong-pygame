@@ -19,7 +19,7 @@ BLACK = (0, 0, 0)
 PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
 BALL_RADIUS = 7
 
-SCORE_FONT = pygame.font.SysFont("comicsans", 50)
+SCORE_FONT = pygame.font.SysFont("Segoe UI", 50)
 WINNING_SCORE = 10
 
 class Paddle:
@@ -54,8 +54,7 @@ def draw(win, paddles, ball, left_score, right_score):
     left_score_text = SCORE_FONT.render(f"{left_score}", 1, WHITE)
     right_score_text = SCORE_FONT.render(f"{right_score}", 1, WHITE)
     win.blit(left_score_text, (WIDTH//4 - left_score_text.get_width()//2, 20))
-    win.blit(right_score_text, (WIDTH * (3/4) -
-                                right_score_text.get_width()//2, 20))
+    win.blit(right_score_text, (WIDTH * (3/4) - right_score_text.get_width()//2, 20))
 
     for paddle in paddles:
         paddle.draw(win)
@@ -98,7 +97,7 @@ def handle_collision(ball, left_paddle, right_paddle):
                 ball.y_vel = -1 * y_vel
 
 
-# Check which key was press and clamp betwen max and min value of the screen
+# Check which key was pressed and clamp between max and min value of the screen
 def handle_paddle_movement(keys, left_paddle, right_paddle):
     if keys[pygame.K_w] and left_paddle.y - left_paddle.VEL >= 0:
         left_paddle.move(up=True)
@@ -149,10 +148,10 @@ def main():
         won = False
         if left_score >= WINNING_SCORE:
             won = True
-            win_text = "Left Player Won!"
+            win_text = "Jogador(a) Esquerdo(a) Ganhou!"
         elif right_score >= WINNING_SCORE:
             won = True
-            win_text = "Right Player Won!"
+            win_text = "Jogador(a) Direito(a) Ganhou!"
 
         if won:
             text = SCORE_FONT.render(win_text, 1, WHITE)
