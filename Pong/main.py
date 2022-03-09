@@ -1,3 +1,4 @@
+from turtle import title
 import pygame
 from ball import Ball
 from paddle import Paddle
@@ -20,32 +21,8 @@ PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
 BALL_RADIUS = 7
 
 SCORE_FONT = pygame.font.SysFont("Segoe UI", 50)
+MENU_FONT = pygame.font.SysFont("8-BIT WONDER", 50)
 WINNING_SCORE = 10
-
-class Paddle:
-    COLOR = WHITE
-    VEL = 4
-
-    # Inicialize the paddle parameters
-    def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-
-    # Draw the paddle as a rectangle
-    def draw(self, win):
-        pygame.draw.rect(win, self.COLOR, (self.x, self.y, self.width, self.height))
-
-    def move(self, up=True):
-        if up:
-            self.y -= self.VEL
-        else:
-            self.y += self.VEL
-
-    def reset(self):
-        self.x = self.original_x
-        self.y = self.original_y
 
 # Draw the objects in the game
 def draw(win, paddles, ball, left_score, right_score):
@@ -66,6 +43,27 @@ def draw(win, paddles, ball, left_score, right_score):
 
     ball.draw(win)
     pygame.display.update()
+
+def menu_draw(win, keys):
+    win.fill(BLACK)
+
+    title = MENU_FONT.render("PONG", 1, WHITE)
+
+    option = Ball(WIDTH//2, HEIGHT//2, BALL_RADIUS)
+    
+    one_player = MENU_FONT.render("1 PLAYER", 1, WHITE)
+    two_players = MENU_FONT.render("2 PLAYERS", 1 , WHITE)
+
+    
+    win.blit(title, (WIDTH//2 - title.get_width()//2, HEIGHT//4))
+    win.blit(one_player, (WIDTH//2 - one_player.get_width()//2, HEIGHT//2 - one_player.get_height()))
+    win.blit(two_players, (WIDTH//2 - two_players.get_width()//2, HEIGHT//2))
+
+    if keys[pygame.K_w] or keys[pygame.K_UP]:
+        pygame.draw.circle(win, WHITE, (WIDTH//2 - one_player.get_width() - 20, HEIGHT//2 - one_player.get_height()), BALL_RADIUS)
+
+    pygame.display.update()
+
 
 
 def handle_collision(ball, left_paddle, right_paddle):
@@ -112,6 +110,8 @@ def handle_paddle_movement(keys, left_paddle, right_paddle):
 
 # Lopping the game
 def main():
+    menu = True
+
     update = True
     clock = pygame.time.Clock()
 
@@ -125,6 +125,11 @@ def main():
 
     while update:
         clock.tick(FPS)
+        keys = pygame.key.get_pressed()
+
+        while(menu):
+            menu_draw(WIN, keys)
+
         draw(WIN, [left_paddle, right_paddle], ball, left_score, right_score)
 
         for event in pygame.event.get():
@@ -132,7 +137,6 @@ def main():
                 update = False
                 break
 
-        keys = pygame.key.get_pressed()
         handle_paddle_movement(keys, left_paddle, right_paddle)
 
         ball.move()

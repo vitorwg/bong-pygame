@@ -1,8 +1,5 @@
 import pygame
 
-
-import pygame
-
 class Ball:
     COLOR = (255, 255, 255)
     MAX_VEL = 5
