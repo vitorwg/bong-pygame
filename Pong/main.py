@@ -127,8 +127,13 @@ def main():
         clock.tick(FPS)
         keys = pygame.key.get_pressed()
 
-        while(menu):
-            menu_draw(WIN, keys)
+        # while(menu):
+        #     menu_draw(WIN, keys)
+
+        #     for event in pygame.event.get():
+        #         if event.type == pygame.QUIT:
+        #             update = False
+        #             break
 
         draw(WIN, [left_paddle, right_paddle], ball, left_score, right_score)
 
